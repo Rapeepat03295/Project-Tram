@@ -1,0 +1,116 @@
+.modal-wrapper { 
+    display: flex;
+    z-index: 10;
+    position: fixed;
+    inset: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: #141218af;
+}
+
+.modal-header {
+    position: absolute;
+    top: -2vw;
+    left: -2px;
+    width: calc(100% + 2px);
+    background-color:rgb(24, 67, 108);
+    color: white;
+    box-sizing: border-box;
+    z-index: 1;
+    padding: 0.8vw 0vw 0.65vw 4vw;
+    display: flex;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    font-size: 1.2vw;
+    align-content: center;
+}
+.add-modal {
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5vw;
+    width: 50vw;
+    min-height: 10vw;
+    padding: 2.5vw 1vw;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 20;
+    justify-content: center;
+    border: none;
+    border-radius: 7px;
+    background-color: #5886c3;
+}
+
+.create-label{
+    font-family: Poppins;
+    font-size: large;
+    padding: 0.4vw 0vw 0.5vw 0vw;
+    color: rgb(248, 248, 248);
+    font-weight: 500;
+}
+input, textarea{
+    font-family: Poppins;
+    border: none;
+    font-size: 0.8vw;
+    border-radius: 6px;
+    padding: 0.4vw;
+
+}
+.input-group{
+    width: 42%;
+    display: flex;
+    padding: 0.8vw 1.5vw;
+    flex-direction: column;
+}
+
+.event-map-con{
+    width: 30vw;
+    height: 20vw;
+    display: flex;
+    padding: 0.8vw 1.5vw;
+    justify-content: center;
+}
+.add-event-map{
+    width: 30vw;
+    height: 20vw;
+}
+.btn-group{
+    align-self: center;
+    display: flex;
+    padding-top: 2vw;
+    width: 20vw;
+    justify-content: space-evenly;
+}
+
+.cancel-btn{
+    width: 7vw;
+    height: 2vw;
+    font-size: medium;
+    z-index: 1000;
+    color: white;
+    font-family: Poppins;
+    background-color: rgb(225, 52, 52);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.create-btn{
+    width: 7vw;
+    height: 2vw;
+    font-size: medium;
+    z-index: 1000;
+    color: white;
+    font-family: Poppins;
+    border-radius: 6px;
+    background-color: rgb(30, 183, 40);
+    border: none;
+    cursor: pointer;
+}
+
+
+.create-btn:hover, .cancel-btn:hover{
+    background-color: rgba(120, 112, 129, 0.841);
+}
+label { display:block }
+
