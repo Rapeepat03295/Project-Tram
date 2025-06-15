@@ -1,0 +1,30 @@
+.route-map-wrapper{
+    width: 25vw;
+    height: 24vw;
+    display: flex;
+    padding: 0.8vw 1.5vw;
+    justify-content: center;
+}
+
+
+.data-con {
+    margin-top: 1vw;
+    padding: 1vw;
+    margin-bottom: 1vw;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2vw;
+}
+
+
+.cat-header {
+    font-size: 1.8vw;
+    font-weight: 500;
+    color: white;
+    padding: 0.7vw;
+}
+
+
+.event-color {
+    background-color: rgb(86, 165, 238);
+}

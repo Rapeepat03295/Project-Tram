@@ -1,0 +1,50 @@
+.Navbar{
+    width: 5vw;
+    flex-direction: column;
+    justify-content: space-around;
+    position: fixed;
+    left: 0;
+    align-items: center;
+    height: 100vh;
+    background-color:rgb(86, 165, 238);
+}
+
+.active-navi{
+  text-decoration: solid underline 4px;
+  text-underline-offset: 13px;
+  background-color: #35495e;
+  width: 100%;
+}
+
+.navbar-element{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10%;
+    cursor: pointer;
+}
+
+.navbar-logo{
+    width: 2vw;
+    height: 2vw;
+    fill: white;
+}
+
+.navbar-back{
+    width: 2vw;
+    height: 2vw;
+    fill: white;
+    transform: rotateY(180deg);
+}
+
+.navbar-element:hover{
+    background-color: rgb(24, 123, 211);
+}
+
+.empty-space{
+    height: 20%;
+}
+
+.Navbar-hidden{
+    transform: translateY(-100%);
+}

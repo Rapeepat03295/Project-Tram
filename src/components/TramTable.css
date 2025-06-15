@@ -1,0 +1,98 @@
+.calendar-wrapper {
+  color: black;
+  width: 90vw;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  z-index: 52;
+}
+
+.weekday-table {
+  border-radius: 10px;
+  background-color: white;
+  height: 80vh;
+  justify-content: center;
+  padding: 0;
+  display: flex;
+  gap: 1vw;
+  flex-wrap: wrap;
+  overflow-y: hidden;
+  overflow-y: scroll;
+}
+
+.weekday-table h1{
+  width: 100%;
+  padding: 0.5vw;
+  text-align: center;
+}
+
+.calendar-row{
+  width: 15%;
+}
+.time-txt{
+  padding: 1vw;
+  align-self: center;
+}
+table {
+  border-collapse: collapse;
+  white-space: nowrap;
+  table-layout: fixed;
+}
+
+tr {
+  text-align: left;
+  align-content: center;
+}
+
+tr:nth-child(odd) {
+  background-color: #b4e1e5; /* White or a very light color */
+}
+
+/* Style for even rows (2nd, 4th, 6th, etc.) */
+tr:nth-child(even) {
+  background-color: #f0f0f0; /* Slightly darker shade of grey */
+}
+
+
+td {
+  height: 0.5vw;
+  font-size: 1vw;
+  padding: 0.5vw;
+  text-align: center;
+  max-height: 1vw !important;
+}
+
+
+th {
+  text-align: center;
+  position: sticky;
+  top: 0;
+  width: 30%;
+  font-size: 1vw;
+  background-color: rgb(105, 192, 232);
+}
+
+tbody {
+  overflow-y: hidden;
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+
+.cancel-btn-calendar{
+    width: 2vw;
+    height: 2vw;
+    right: 0;
+    font-size: 1.2vw;
+    align-content: center;
+    top: -1vw;
+    right: -0.5vw;
+    position: absolute;
+    z-index: 1000;
+    color: white;
+    border-radius: 50%;
+    font-family: Poppins;
+    background-color: rgb(225, 52, 52);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}

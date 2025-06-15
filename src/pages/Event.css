@@ -1,0 +1,136 @@
+.data-con {
+    margin-top: 1vw;
+    padding: 1vw;
+    margin-bottom: 1vw;
+    margin-right: 8vw;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 5vw;
+    overflow-x: auto;
+}
+
+.event-card {
+    width: 16vw;
+    height: 25vw;
+    padding: 0vw 1vw 1vw 1vw;
+    display: flex;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+}
+
+.event-card-restore {
+    width: 16vw;
+    height: 28.5vw;
+    padding: 0vw 1vw 1vw 1vw;
+    display: flex;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+}
+
+.btn-container{
+    display: flex;
+    justify-content: space-between;
+    width: 23vw;
+    height: 3vw;
+}
+
+.event-color {
+    background-color: rgb(86, 165, 238);
+}
+
+.cat-header {
+    font-size: 1.8vw;
+    font-weight: 500;
+    color: white;
+    padding: 0.7vw;
+    display: flex;
+}
+
+.data-header {
+    font-size: 1vw;
+    padding: 0.5vw;
+    color: white;
+    border-radius: 5px;
+}
+
+.data-desc {
+    font-size: 0.8vw;
+    font-weight: 400;
+}
+
+.data-img{
+    width: 14vw;
+    height: 11.5vw;
+    align-self: center;
+}
+
+.data-date {
+    font-size: 0.8vw;
+    text-wrap: wrap;
+    color: gray;
+    font-weight: 400;
+}
+
+.add-data {
+    width: 10vw;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 0.5vw;
+    font-family: Poppins;
+    font-size: medium;
+}
+
+.delete-event {
+    width: 3vw;
+    height: 3vw;
+    position: relative;
+    left: -1.7vw;
+    bottom: 0.5vw;
+    margin: 0;
+    /*top: -0.6vw;
+  left: 19.7vw;*/
+    cursor: pointer;
+    background-color: rgb(245, 3, 3);
+    font-size: 0.6vw;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+    border: none;
+
+}
+
+.bin-icon{
+    fill: white;
+    width: 1.5vw;
+    height: 1.5vw;
+    margin: 0.5vw;
+}
+
+.delete-icon-container{
+    background-color: red;
+    display: flex;
+    color: white;
+    padding: 1vw;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.archive-header{
+    font-size: 1.8vw;
+    padding: 2vw 0vw;
+    display: flex;
+}
