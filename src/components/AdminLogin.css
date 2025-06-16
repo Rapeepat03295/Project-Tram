@@ -109,10 +109,6 @@
     border-radius: 10px;
 }
 
-.hide-logout{
-    visibility: hidden;
-}
-
 .logout-btn{
     border: none;
     margin: 1.5vw;
