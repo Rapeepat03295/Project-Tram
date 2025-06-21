@@ -1,7 +1,7 @@
 import './AddEvent.css'
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ref, push, set, onValue } from 'firebase/database';
-import { realtimeDb } from '../config/firebase';
+import { addEventWithImage, realtimeDb } from '../config/firebase';
 import { auth } from '../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import SimpleMap from './SimpleMap';
@@ -61,6 +61,14 @@ const AddEvent = ({ showAddEvent, closeAddEvent }) => {
             createdBy: user.uid,
             createdAt: new Date().toISOString(),
         }));
+        try{
+        await addEventWithImage(newEventRef.key, eventData, imageFile);
+            alert("event added successfully");
+            closeAddEvent();
+        }catch(e){
+            alert("failed to add event")
+        }
+        /*
         set(newEventRef, eventData)
             .then(() => {
                 alert("Event created successfully!");
@@ -70,6 +78,7 @@ const AddEvent = ({ showAddEvent, closeAddEvent }) => {
                 console.error("Error creating event:", error);
                 alert("Failed to create event. Please try again.");
             });
+        */
     }
     useEffect(() => {
         return () => {

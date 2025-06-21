@@ -202,12 +202,12 @@ export const addRouteFromDb = (data, path) => {
 };
 
 
-export const AddEventWithImage = async (eventId, eventData, imageFile) => {
+export const addEventWithImage = async (eventId, eventData, imageFile) => {
     let imageUrl = null;
     let imageName = null;
 
     if (imageFile) {
-        const newImgRef = storageRef(storage, `Events/${eventId}/${imageFile.name}`);
+        const newImgRef = storageRef(storage, `events/${eventId}/${imageFile.name}`);
         await uploadBytes(newImgRef, imageFile);
         imageUrl = await getDownloadURL(newImgRef);
         imageName = imageFile.name;
