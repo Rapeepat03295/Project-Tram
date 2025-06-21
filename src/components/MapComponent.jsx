@@ -127,7 +127,7 @@ function MapComponent() {
     const [transferState, setTransferState] = useState(false);
     const [filterBtn, setFilterBtn] = useState([
         "All Stations", "Academic Building", "Institute", "Park", "Parking Lot",
-        "Sport Complex", "Dormitory", "Hospital", "Exit Gate"
+        "Sports Complex", "Dormitory", "Hospital", "Exit Gate"
     ])
     const [filterMarker, setFilterMarker] = useState([]);
 
@@ -169,7 +169,11 @@ function MapComponent() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+            if (currentUser){
+                setUser(currentUser);
+            }else{
+                setUser(null);
+            }
             //setIslogin(true);
         });
         return () => {
@@ -757,18 +761,19 @@ function MapComponent() {
         }
     }
     const filterPlace = async (category) => {
-        console.log(category);
+        //console.log("category selected ", category);
         if (category == 'All Stations') {
             setMarker(filterMarker);
         } else {
             let filteredData = [];
             for (const data of filterMarker) {
-                //console.log(data);
+                //console.log("all data ", data);
                 if (data.hasOwnProperty('category')) {
                     const catData = Object.values(data.category);
+                    //console.log("data cat ", catData);
                     if (catData.includes(category)) {
                         filteredData.push(data);
-                        console.log("found", data);
+                        //console.log("found", data);
                     }
                 }
             }

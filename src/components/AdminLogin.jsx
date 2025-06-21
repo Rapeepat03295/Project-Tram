@@ -14,17 +14,22 @@ const AdminLogin = () => {
     
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+            if(currentUser)
+                setUser(currentUser);
         });
         return () => unsubscribe();
     }, [auth]);
 
+
+
     const handleLogin = async () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log(userCredential);
             setUser(userCredential.user);
             setLoginVisible(false);
         } catch (error) {
+            setUser(null);
             console.log(error);
             alert("Login unsuccesful");
         }
@@ -33,10 +38,10 @@ const AdminLogin = () => {
         try {
             await signOut(auth);
             setUser(null); // Clear the user state
-            console.log('Signed out');
             setLoginVisible(false);
         } catch (error) {
             console.log(error);
+            setIsLogin(false);
             console.error('Error signing out:', error);
         }
     };
