@@ -141,20 +141,20 @@ const AddEvent = ({ showAddEvent, closeAddEvent }) => {
                         onLocationChange={handleLocationChange} // Pass the callback
                     />
                 </div>
-                <div className="input-group">
-                    <label htmlFor="image">Event Image</label>
+                <div className="input-image-group">
+                    <label className="img-label" htmlFor="image">Add Event Image</label>
                     <input
                         type="file"
                         id="image"
                         accept="image/*"
                         onChange={e => previewImage(e.target.files[0])}
                     />
-                </div>
-                {imagePreview && (
+                    {imagePreview && (
                     <div className="image-preview">
-                        <img src={imagePreview} alt="Preview" style={{ maxWidth: "200px", maxHeight: "200px" }} />
+                        <img className = "event-img-preview" src={imagePreview} alt="Preview"/>
                     </div>
                 )}
+                </div>
                 <div className="btn-group">
                     <button className="create-btn" type="button" onClick={() => handleAddEvent()}>Create</button>
                     <button className="cancel-btn" type="button" onClick={closeAddEvent}>Cancel</button>

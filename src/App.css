@@ -9,9 +9,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -20,6 +22,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -34,27 +37,29 @@
 .admin-page {
   padding-left: 5vw;
   overflow-x: hidden;
+  background-color: rgb(219, 232, 253);
 }
 
-.survey-back{
-    position: absolute;
-    width: 2vw;
-    height: 2vw;
-    left: -1.5vw;
-    background-color:rgb(86, 165, 238);
-    fill: white;
-    padding: 0.5vw;
-    border-radius: 50%;
-    top: -1.5vw;
-    cursor: pointer;
-    fill: white;
+.survey-back {
+  position: absolute;
+  width: 2vw;
+  height: 2vw;
+  left: -1.5vw;
+  background-color: rgb(86, 165, 238);
+  fill: white;
+  padding: 0.5vw;
+  border-radius: 50%;
+  top: -1.5vw;
+  cursor: pointer;
+  fill: white;
 }
 
 
-.survey-back:hover{
+.survey-back:hover {
   background-color: rgb(11, 149, 149);
 }
-.text-color{
+
+.text-color {
   color: rgb(47, 60, 82);
 }
 
@@ -80,7 +85,7 @@
 }
 
 .filter-btn {
-   border: None;
+  border: None;
   border-radius: 30px;
   background-color: rgb(86, 165, 238);
   color: white;
@@ -97,7 +102,7 @@
 }
 
 .blue-color-logo {
-  fill:  rgb(86, 165, 238);
+  fill: rgb(86, 165, 238);
 }
 
 .theme-color {
@@ -126,6 +131,84 @@ body {
   }
 }
 
+.add-data {
+  width: 10vw;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 0.5vw;
+  font-family: Poppins;
+  font-size: 1.1vw;
+}
+
+
+.delete-event {
+  width: 1.5vw;
+  height: 1.5vw;
+  position: relative;
+  left: -1.7vw;
+  bottom: 0.5vw;
+  margin: 0;
+  /*top: -0.6vw;
+  left: 19.7vw;*/
+  cursor: pointer;
+  background-color: rgb(245, 3, 3);
+  font-size: 0.8vw;
+  border-radius: 4px;
+  font-weight: bold;
+  color: white;
+  border: none;
+}
+
+
+.delete-event:hover {
+  opacity: 60%;
+}
+
+
+.event-card {
+  width: 18vw;
+  height: 25vw;
+  padding: 0vw 1vw 1vw 1vw;
+  display: flex;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  border-radius: 5px;
+  cursor: pointer;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.data-desc {
+    font-size: 0.8vw;
+    font-weight: 400;
+}
+
+.data-desc-con{
+  height: 8vw;
+  overflow-y: scroll;
+}
+
+.fb-card{
+  width: 18vw;
+  height: 15vw;
+  padding: 0vw 1vw 1vw 1vw;
+  display: flex;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  border-radius: 5px;
+  cursor: pointer;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.hover-opacity:hover {
+  transform: scale(1.04);
+  opacity: 85%;
+  transition: all 0.3s ease;
+}
 
 .poppins-thin {
   font-family: "Poppins", sans-serif;
@@ -263,4 +346,3 @@ body {
     transform: scale(1);
   }
 }
-

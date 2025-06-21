@@ -152,8 +152,8 @@ const Event = () => {
             <div className="admin-content">
                 <h1 className="cat-header event-color">Events</h1>
                 <div className="btn-container">
-                    <button className="add-data event-color" onClick={() => handleShowCreateEvent()}> + Add Event</button>
-                    <div className="delete-icon-container" onClick={(e) => {
+                    <button className="add-data event-color hover-opacity" onClick={() => handleShowCreateEvent()}> + Add Event</button>
+                    <div className="delete-icon-container hover-opacity" onClick={(e) => {
                             e.stopPropagation();
                             handleArchiveAllEvent()
                         }}>
@@ -170,14 +170,16 @@ const Event = () => {
                 )}
                 <div className="data-con">
                     {event && event.map((data) => (
-                        <div className="event-card" key={data.id} onClick={() => handleShowEditEvent(data)}>
+                        <div className="event-card hover-opacity" key={data.id} onClick={() => handleShowEditEvent(data)}>
                             <button onClick={(e) => {
                                 e.stopPropagation();
                                 handleArchiveEvent(data);
                             }} className="delete-event">x</button>
                             <h1 className="data-header event-color">{data.name}</h1>
                             <img className="data-img" src={data.imageUrl} />
-                            <h2 className="data-desc">{data.description}</h2>
+                            <div className="data-desc-con">
+                                <p className="data-desc">{data.description}</p>
+                            </div>
                             <h3 className="data-date">Start: {convertDateTime(data.startDate)}</h3>
                             <h3 className="data-date">End: {convertDateTime(data.endDate)}</h3>
                         </div>
@@ -186,14 +188,16 @@ const Event = () => {
                 {archEvent.length > 0 && <h1 className = "archive-header">Archive Events</h1>}
                 <div className="data-con">
                     {archEvent.length > 0 && archEvent.map((data) => (
-                        <div className="event-card-restore" key={data.id} onClick={() => handleShowEditEvent(data)}>
+                        <div className="event-card hover-opacity" key={data.id} onClick={() => handleShowEditEvent(data)}>
                             <button onClick={(e) => {
                                 e.stopPropagation();
                                 handleDeleteEvent(data.id);
                             }} className="delete-event">x</button>
                             <h1 className="data-header event-color">{data.name}</h1>
                             <img className="data-img" src={data.imageUrl} />
-                            <h2 className="data-desc">{data.description}</h2>
+                            <div className="data-desc-con">
+                                <p className="data-desc">{data.description}</p>
+                            </div>
                             <h3 className="data-date">Start: {convertDateTime(data.startDate)}</h3>
                             <h3 className="data-date">End: {convertDateTime(data.endDate)}</h3>
                             <button className="add-data event-color" onClick={(e) => {

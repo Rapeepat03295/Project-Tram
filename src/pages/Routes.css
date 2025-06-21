@@ -1,9 +1,8 @@
 .route-map-wrapper{
     width: 25vw;
-    height: 24vw;
     display: flex;
     padding: 0.8vw 1.5vw;
-    justify-content: center;
+    align-items: center;
 }
 
 

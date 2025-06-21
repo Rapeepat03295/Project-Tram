@@ -96,7 +96,7 @@ const RouteMap = ({ routeData, routeColor }) => {
 
     return (
         <div className="route-map-container">
-            <h1 style = {{color:routeColor}}>{routeColor}</h1>
+            <h1 class = "route-color-head" style = {{color:routeColor}}>{routeColor}</h1>
             <GoogleMap mapContainerClassName="route-map"
                 onLoad={onLoad}
                 onUnmount={onUnmount}

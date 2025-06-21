@@ -106,6 +106,7 @@ function MapComponent() {
     const [result, setResult] = useState([]);
     const [stationmap, setStationMap] = useState(new Map());
     const [midpoint, setMidpoint] = useState(null);
+    const [userMid, setUserMid] = useState(null);
     const [filterRoute, setFilterRoute] = useState({
         path: [],
         color: ``
@@ -169,9 +170,9 @@ function MapComponent() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser){
+            if (currentUser) {
                 setUser(currentUser);
-            }else{
+            } else {
                 setUser(null);
             }
             //setIslogin(true);
@@ -468,6 +469,7 @@ function MapComponent() {
                 (response, status) => {
                     if (status === 'OK') {
                         resolve(response);
+                    } else {
                         reject(new Error("Failed to get directions"));
                     }
                 }
@@ -745,7 +747,7 @@ function MapComponent() {
                             endDate: marker.endDate,
                             icon: {
                                 url: eventIcon,
-                                scaledSize: new google.maps.Size(50, 50),
+                                scaledSize: new google.maps.Size(60, 60),
                                 origin: new google.maps.Point(0, 0),
                                 anchor: new google.maps.Point(15, 15),
                             },
@@ -892,6 +894,33 @@ function MapComponent() {
             console.log(e);
         }
     }
+    const setWalkingWaypoint = (userWaypoint, displayData, start, end) => {
+        const walkingInfo = { ...emptyRouteInfo };
+        walkingInfo.distance = displayData.walkingDistance;
+        walkingInfo.color = 'blue';
+        walkingInfo.time = displayData.walkingTime.text;
+        setWalking2Desti(walkingInfo);
+        setDirection(userWaypoint);
+        setMidpoint(findMidpoint(
+            start,
+            end
+        ))
+    }
+    const setUserToTramWaypoint = (userWaypoint, userPos, goToStation) => {
+        //console.log(userWaypoint.routes[0].legs[0].duration);
+        const walkingInfo = { ...emptyRouteInfo };
+        walkingInfo.distance = userWaypoint.routes[0].legs[0].distance.value;
+        walkingInfo.color = 'orange';
+        walkingInfo.time = userWaypoint.routes[0].legs[0].duration.text;
+        setUser2Desti(walkingInfo);
+        setDirectionsUserToTram(userWaypoint);
+        //console.log(findMidpoint(userPos, goToStation));
+        setUserMid(findMidpoint(
+            userPos,
+            goToStation
+        ))
+        return userWaypoint.routes[0].legs[0].duration.value / 60;
+    }
     const findMidpoint = (origin, destination) => {
         const fraction = 0.5;
         const lat = origin.lat + (destination.lat - origin.lat) * fraction;
@@ -963,10 +992,13 @@ function MapComponent() {
                 }
                 if (data.length > 0) {
                     const goToStation = stationmap.get(data[0].startStation);
-                    const walkingUserToTram = await calculateDistanceGoogle(userPos, goToStation.position);
-
+                    const walkingUser2Tram = await calculateDistanceGoogle(userPos, goToStation.position);
+                    const delayedTime = setUserToTramWaypoint(walkingUser2Tram,
+                        userPos,
+                        goToStation
+                    );
                     const walkingData = await calculateDistanceGoogle(userPos, toMarker.position);
-                    const o2d = compareSpeed(walkingData, data[0].distance, fromMarker, data[0].color);
+                    const o2d = compareSpeed(walkingData, data[0].distance, fromMarker, data[0].color, delayedTime);
 
                     const transferStation = stationmap.get(data[1].startStation);
                     const transfer = await calculateDistanceGoogle(transferStation.position, toMarker.position);
@@ -998,79 +1030,57 @@ function MapComponent() {
                     setTransferState(true);
                     ///
                     ///
-                    const walkingInfo = { ...emptyRouteInfo };
+                    //const walkingInfo = { ...emptyRouteInfo };
                     if (o2d.isWalking || t2d.isWalking) {
-                        if (t2d.isWalking) {
-                            walkingInfo.distance = t2d.walkingDistance;
-                            walkingInfo.color = 'blue';
-                            walkingInfo.time = t2d.walkingTime.text;
-                            setDirection(transfer);
-                        }
                         if (o2d.isWalking) {
-                            walkingInfo.distance = o2d.walkingDistance;
-                            walkingInfo.color = 'blue';
-                            walkingInfo.time = o2d.walkingTime.text;
-                            setDirectionsUserToTram(walkingData);
+                            setWalkingWaypoint(walkingData,
+                                o2d,
+                                userPos,
+                                toMarker.position
+                            );
+                        } else if (t2d.isWalking) {
+                            setWalkingWaypoint(transfer,
+                                t2d,
+                                transferStation.position,
+                                toMarker.position
+                            );
                         }
-                        setWalking2Desti(walkingInfo);
-                        //console.log(walkingInfo)
                     }
                     if (o2d.isWalking && t2d.isWalking) t2d.isWalking = false
-                    if (!o2d.isWalking) {
-                        const userWalkingInfo = { ...emptyRouteInfo };
-                        userWalkingInfo.distance = walkingUserToTram.routes[0].legs[0].distance.value
-                        userWalkingInfo.color = 'blue';
-                        userWalkingInfo.time = walkingUserToTram.routes[0].legs[0].duration.value;
-                        console.log(userWalkingInfo);
-                        setUser2Desti(userWalkingInfo);
-                        setDirectionsUserToTram(walkingUserToTram);
-                    }
                     setResult([o2d, t2d]);
                     //console.log(result);
                     setDistance(tramDistance.toFixed(2));
                     setFromMarker(goToStation);
                 } else {
+                    //console.log("1 info only");
                     const goToStation = stationmap.get(data.startStation);
-                    const walkingUserToTram = await calculateDistanceGoogle(userPos, goToStation.position);
+                    const walkingUser2Tram = await calculateDistanceGoogle(userPos, goToStation.position);
+                    const delayedTime = setUserToTramWaypoint(
+                        walkingUser2Tram,
+                        userPos,
+                        goToStation.position
+                    );
+                    const walkingUser2Desti = await calculateDistanceGoogle(userPos, toMarker.position);
+                    const u2d = compareSpeed(walkingUser2Desti, data.distance, fromMarker, data.colorm, delayedTime);
+                    setTime(u2d.tramTime.text);
 
-                    const walkingData = await calculateDistanceGoogle(userPos, toMarker.position);
-                    const o2d = compareSpeed(walkingData, data.distance, toMarker, data.color);
-                    setTime(o2d.tramTime.text);
-                    ////
-                    const o2dInfo = generateDistancePopup(data, o2d.tramTime.text);
-                    //console.log(o2dInfo);
-                    setOrigin2Desti(o2dInfo);
+                    if (u2d.isWalking) {
+                        setWalkingWaypoint(walkingUser2Desti,
+                            u2d,
+                            userPos,
+                            toMarker.position
+                        );
+                    }
+                    //console.log("User to Tram:", walkingUser2Tram.routes[0]);
+                    //console.log("User to Desti:", walkingUser2Desti.routes[0]);
+
+                    const u2dInfo = generateDistancePopup(data, u2d.tramTime.text);
+                    setOrigin2Desti(u2dInfo);
                     const polyData = {
                         tramColor: data.color,
                         path: data.path
                     }
-                    if (o2d.isWalking) {
-                        const walkingInfo = { ...emptyRouteInfo };
-                        walkingInfo.distance = o2d.walkingDistance;
-                        walkingInfo.color = 'blue';
-                        walkingInfo.time = o2d.walkingTime.text;
-                        setWalking2Desti(walkingInfo);
-                        setDirectionsUserToTram(walkingData);
-                         setMidpoint(findMidpoint(
-                            userPos,
-                            toMarker.position
-                        ))
-                    } else {
-                        const u2t = compareSpeed(walkingUserToTram, data.distance, fromMarker, data.color);
-                        console.log(u2t);
-                        //const u2tInfo = generateDistancePopup(data, u2t.tramTime.text);
-                        const walkingInfo = { ...emptyRouteInfo };
-                        walkingInfo.distance = u2t.walkingDistance;
-                        walkingInfo.color = 'orange';
-                        walkingInfo.time = u2t.walkingTime.text;
-                        setUser2Desti(walkingInfo);
-                        setDirectionsUserToTram(walkingUserToTram);
-                        setMidpoint(findMidpoint(
-                            userPos,
-                            goToStation.position
-                        ))
-                    }
-                    setResult([o2d]);
+                    setResult([u2d]);
                     //console.log(result);
                     setPolyDirect(polyData);
                     setDistance(data.distance.toFixed(2));
@@ -1218,7 +1228,7 @@ function MapComponent() {
                 return
             };
             showDirection();
-            console.log("show direction is called");
+            //console.log("show direction is called");
         }
     }, [fromMarker, toMarker, isMapLoaded]);
     const resetAllData = () => {
@@ -1231,6 +1241,7 @@ function MapComponent() {
         setTime(null);
         setTransferStation(null);
         setMidpoint(null);
+        setUserMid(null);
         const resetPolyDirect = {
             path: [],
             tramColor: ``,
@@ -1399,9 +1410,9 @@ function MapComponent() {
                             </InfoWindow>
                         )}
                         {(user2Desti && directionsUserToTram &&
-                            <InfoWindow position={midpoint}
+                            <InfoWindow position={userMid}
                                 onCloseClick={() => setUser2Desti(emptyRouteInfo)}>
-                                <div className={`popup-route-info ${user2Desti.color}-border`}>
+                                <div className={`popup-route-info black-border`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="popup-tram-icon" viewBox="0 0 320 512">
                                         <path fill={user2Desti.color} d="M160 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-6 11.5-10.6 16.1L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L68.7 398z" /></svg>
                                     <h3>{user2Desti.time}</h3>
@@ -1445,44 +1456,54 @@ function MapComponent() {
 
                         {direction &&
                             <DirectionsRenderer directions={direction}
+                                key='origin-direct'
                                 options={{
                                     polylineOptions: {
-                                        strokeColor: 'black',
-                                        strokeOpacity: 0.8,
-                                        strokeWeight: 4,
+                                        strokeColor: 'transparent',
+                                        strokeOpacity: 0,
+                                        strokeWeight: 0,
                                         icons: [
                                             {
                                                 icon: {
-                                                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                                                    scale: 1.5,
-                                                    strokeColor: 'black'
+                                                    path: google.maps.SymbolPath.CIRCLE,
+                                                    scale: 3,
+                                                    strokeColor: 'black',
+                                                    fillColor: 'black',
+                                                    fillOpacity: 1,
+                                                    strokeWeight: 0
                                                 },
-                                                offset: '100%',
+                                                offset: '0%',
+                                                repeat: '10px'
                                             }
                                         ],
-                                        zIndex: 1
+                                        zIndex: 2
                                     },
-                                    suppressMarkers: true
+                                    suppressMarkers: false
                                 }}
                             />}
                         {directionsUserToTram &&
                             <DirectionsRenderer directions={directionsUserToTram}
+                                key='user-direct'
                                 options={{
                                     polylineOptions: {
-                                        strokeColor: 'orange',
-                                        strokeOpacity: 0.8,
-                                        strokeWeight: 4,
+                                        strokeColor: 'transparent',
+                                        strokeOpacity: 0,
+                                        strokeWeight: 0,
                                         icons: [
                                             {
                                                 icon: {
-                                                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                                                    scale: 1.5,
-                                                    strokeColor: 'orange'
+                                                    path: google.maps.SymbolPath.CIRCLE,
+                                                    scale: 3,
+                                                    strokeColor: 'orange',
+                                                    fillColor: 'orange',
+                                                    fillOpacity: 1,
+                                                    strokeWeight: 0
                                                 },
-                                                offset: '100%',
+                                                offset: '0%',
+                                                repeat: '10px'
                                             }
                                         ],
-                                        zIndex: 1
+                                        zIndex: 2
                                     },
                                     suppressMarkers: false
                                 }}

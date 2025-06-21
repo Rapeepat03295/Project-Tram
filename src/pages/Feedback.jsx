@@ -93,13 +93,18 @@ const Feedback = () => {
                 <h1 className="cat-header fb-color">Feedback</h1>
                 <div className="data-con">
                     {feedback && feedback.map((data) => (
-                        <div className="event-card" key={data.id}>
+                        <div className="fb-card hover-opacity" key={data.id}>
                             <button onClick={(e) => {
                                 e.stopPropagation();
                                 handleArchiveFeedback(data)
                             }} className="delete-event">x</button>
-                            <h1 className="fb-header fb-color">{data.email}</h1>
-                            <p className="data-date">{data.message}</p>
+                            <h1 className="fb-header fb-color">{
+                                data.email? data.email 
+                                : `- - `}
+                            </h1>
+                            <div className="data-desc-con">
+                                <p className="data-desc">{data.message}</p>
+                            </div>
                             <h3 className="data-date">{convertDateTime(data.timestamp)}</h3>
                         </div>
                     ))}
@@ -107,12 +112,15 @@ const Feedback = () => {
                 {archFeedback.length > 0 && <h1 className = "archive-header">Archive Feedback</h1>}
                 <div className="data-con">
                     {archFeedback && archFeedback.map((data) => (
-                        <div className="event-card" key={data.id}>
+                        <div className="fb-card hover-opacity" key={data.id}>
                             <button onClick={(e) => {
                                 e.stopPropagation();
                                 handleDeleteFeedback(data.id)
                             }} className="delete-event">x</button>
-                            <h1 className="fb-header fb-color">{data.email}</h1>
+                             <h1 className="fb-header fb-color">{
+                                data.email? data.email 
+                                : `- - `}
+                            </h1>
                             <p className="data-date">{data.message}</p>
                             <h3 className="data-date">{convertDateTime(data.timestamp)}</h3>
                         </div>

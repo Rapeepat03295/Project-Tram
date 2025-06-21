@@ -1,4 +1,4 @@
-.modal-wrapper { 
+.modal-wrapper {
     display: flex;
     z-index: 10;
     position: fixed;
@@ -10,10 +10,10 @@
 
 .modal-header {
     position: absolute;
-    top: -2vw;
+    top: -1vw;
     left: -2px;
     width: calc(100% + 2px);
-    background-color:rgb(24, 67, 108);
+    background-color: rgb(24, 67, 108);
     color: white;
     box-sizing: border-box;
     z-index: 1;
@@ -24,13 +24,14 @@
     font-size: 1.2vw;
     align-content: center;
 }
+
 .add-modal {
     position: fixed;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5vw;
     width: 50vw;
-    min-height: 10vw;
+    height: 40vw;
     padding: 2.5vw 1vw;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -39,16 +40,30 @@
     border: none;
     border-radius: 7px;
     background-color: #5886c3;
+    overflow-y: scroll;
 }
 
-.create-label{
+.create-label {
     font-family: Poppins;
-    font-size: large;
+    font-size: 1vw;
     padding: 0.4vw 0vw 0.5vw 0vw;
     color: rgb(248, 248, 248);
     font-weight: 500;
 }
-input, textarea{
+
+.img-label {
+    font-family: Poppins;
+    font-size: 1.5vw;
+    font-weight: 700;
+    padding: 0.4vw 0vw 0.5vw 0vw;
+    color: rgb(255, 255, 255);
+}
+
+.event-img-preview{
+    max-width: 15vw;
+}
+input,
+textarea {
     font-family: Poppins;
     border: none;
     font-size: 0.8vw;
@@ -56,25 +71,36 @@ input, textarea{
     padding: 0.4vw;
 
 }
-.input-group{
+
+.input-group {
     width: 42%;
     display: flex;
     padding: 0.8vw 1.5vw;
     flex-direction: column;
 }
 
-.event-map-con{
+.input-image-group {
+    width: 84%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.8vw 1.5vw;
+}
+
+.event-map-con {
     width: 30vw;
     height: 20vw;
     display: flex;
     padding: 0.8vw 1.5vw;
     justify-content: center;
 }
-.add-event-map{
+
+.add-event-map {
     width: 30vw;
     height: 20vw;
 }
-.btn-group{
+
+.btn-group {
     align-self: center;
     display: flex;
     padding-top: 2vw;
@@ -82,7 +108,7 @@ input, textarea{
     justify-content: space-evenly;
 }
 
-.cancel-btn{
+.cancel-btn {
     width: 7vw;
     height: 2vw;
     font-size: medium;
@@ -95,7 +121,7 @@ input, textarea{
     cursor: pointer;
 }
 
-.create-btn{
+.create-btn {
     width: 7vw;
     height: 2vw;
     font-size: medium;
@@ -109,8 +135,11 @@ input, textarea{
 }
 
 
-.create-btn:hover, .cancel-btn:hover{
+.create-btn:hover,
+.cancel-btn:hover {
     background-color: rgba(120, 112, 129, 0.841);
 }
-label { display:block }
 
+label {
+    display: block
+}

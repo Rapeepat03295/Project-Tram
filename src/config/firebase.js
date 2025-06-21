@@ -223,6 +223,27 @@ export const addEventWithImage = async (eventId, eventData, imageFile) => {
     await set(eventRef, fullEventData);
 };
 
+export const editEventWithImage = async (eventId, eventData, imageFile) => {
+    let imageUrl = null;
+    let imageName = null;
+
+    if (imageFile) {
+        const newImgRef = storageRef(storage, `events/${eventId}/${imageFile.name}`);
+        await uploadBytes(newImgRef, imageFile);
+        imageUrl = await getDownloadURL(newImgRef);
+        imageName = imageFile.name;
+    }
+
+    const fullEventData = {
+        ...eventData,
+        imageUrl,
+        imageName
+    };
+
+    const eventRef = ref(realtimeDb, `events/${eventId}`);
+    await set(eventRef, fullEventData);
+};
+
 
 /*
 // Function to get stations data from Realtime Database

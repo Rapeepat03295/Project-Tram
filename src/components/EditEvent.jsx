@@ -1,13 +1,13 @@
 import './AddEvent.css'
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ref, push, set, onValue } from 'firebase/database';
-import { realtimeDb } from '../config/firebase';
+import { editEventWithImage, realtimeDb } from '../config/firebase';
 import { auth } from '../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import SimpleMap from './SimpleMap';
 
 
-const EditEvent = ({showEditEvent, closeEditEvent, editData}) => {
+const EditEvent = ({ showEditEvent, closeEditEvent, editData }) => {
     const [user, setUser] = useState(null);
     const [mapLocation, setMapLocation] = useState(null);
     const [eventData, setEventData] = useState({
@@ -18,6 +18,8 @@ const EditEvent = ({showEditEvent, closeEditEvent, editData}) => {
         endDate: '',
         status: 'active'
     });
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
     const handleLocationChange = (newLocation) => {
         // This function is called by SimpleMap with the new location
@@ -48,17 +50,35 @@ const EditEvent = ({showEditEvent, closeEditEvent, editData}) => {
             [name]: value
         }));
     };
-
+    const previewImage = (e) => {
+        if (e) {
+            setImageFile(e);
+            setImagePreview(URL.createObjectURL(e));
+        }
+    }
     const handleEditEvent = async () => {
         if (!eventData.name.trim() || !eventData.description.trim() || !eventData.startDate || !eventData.endDate || !eventData.location) {
-            alert("Please fill in all fields and select a location."); 
+            alert("Please fill in all fields and select a location.");
         }
         if (!user) {
             alert("Please sign in to edit event.");
             return;
         }
-        const eventsRef = ref(realtimeDb, `events/${eventData.id}`);
-
+        const updatedEvent = {
+            ...eventData,
+            updatedBy: user.uid,
+            updatedAt: new Date().toISOString(),
+        }
+        //const eventsRef = ref(realtimeDb, `events/${eventData.id}`);
+        try {
+            await editEventWithImage(eventData.id, updatedEvent, imageFile)
+            alert("Edit Event Successfully!");
+            closeEditEvent();
+        } catch (e) {
+            console.log(e);
+            alert("Failed to Edit event. Please try again.");
+        }
+        /*
         const updatedEvent = {
             ...eventData,
             updatedBy: user.uid,
@@ -74,6 +94,8 @@ const EditEvent = ({showEditEvent, closeEditEvent, editData}) => {
                 console.error("Error Editing event:", error);
                 alert("Failed to create event. Please try again.");
             });
+        */
+
     }
 
     return (
@@ -129,6 +151,25 @@ const EditEvent = ({showEditEvent, closeEditEvent, editData}) => {
                         location={mapLocation}
                         onLocationChange={handleLocationChange} // Pass the callback
                     />
+                </div>
+                <div className="input-image-group">
+                    <label className="img-label" htmlFor="image">Change Event Image</label>
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                        onChange={e => previewImage(e.target.files[0])}
+                    />
+                    {(imagePreview || eventData.imageUrl) && (
+                        <div className="image-preview">
+                            <img
+                                className="event-img-preview"
+                                src={imagePreview ? imagePreview : eventData.imageUrl}
+                                alt="Preview"
+                            />
+                        </div>
+                    )}
+
                 </div>
                 <div class="btn-group">
                     <button className="create-btn" type="button" onClick={handleEditEvent}>Edit</button>
