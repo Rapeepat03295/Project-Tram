@@ -11,26 +11,10 @@ const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [user, setUser] = useState(null);
     const [password, setPassword] = useState('');
-    const [isLogin, setIsLogin] = useState(false);
-
-    /*
-    const handleLogin = async () => {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        setUser(userCredential.user);
-        setIsLogin(true);
-        console.log('Signed in:', userCredential.user);
-    } catch (error) {
-        setIsLogin(false);
-        console.error('Error signing in:', error);
-    }
-};
-*/
+    
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            setIsLogin(true);
-
         });
         return () => unsubscribe();
     }, [auth]);
@@ -39,69 +23,27 @@ const AdminLogin = () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user);
-            setIsLogin(true);
             setLoginVisible(false);
         } catch (error) {
             console.log(error);
-            setIsLogin(false);
             alert("Login unsuccesful");
         }
     }
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            setIsLogin(false);
             setUser(null); // Clear the user state
             console.log('Signed out');
             setLoginVisible(false);
         } catch (error) {
             console.log(error);
-            setIsLogin(false);
             console.error('Error signing out:', error);
         }
     };
     const toggleLogin = () => {
         setLoginVisible(!isLoginVisible);
     }
-    /*
-    const handleLogin = () => {
-        const payload = {
-            "returnSecureToken": true,
-            "email": email,
-            "password": password,
-            "clientType": "CLIENT_TYPE_WEB"
-        }
-        //patmahidol@gmail.com
-        //Tramsim1
-        fetch(process.env.REACT_APP_SERVER_HOST + '/api/auth/login', {
-            method: `POST`,
-            headers: {
-                'Content-Type' : 'application/json',
-            },
-            body : JSON.stringify(payload),
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error(`Login failed : ` + response.statusText);
-            }else{
-                return response.json();
-            }
-        }).then((data) => {
-            alert("login successfully");
-            setIsLogin(true);
-            setLoginVisible(false);
-            localStorage.setItem('tramAccessToken', data.user.stsTokenManager.accessToken)
-        }).catch((error) => {
-            alert("login failed");
-            console.log(error);
-        })
-    }
 
-    const handleLogout = () => {
-        setIsLogin(false);
-        setLoginVisible(true);
-        localStorage.clear('tramAccessToken');
-    }
-    */
     const handleDashboardAccess = () => {
         navigate('/admin-event');
     };
@@ -110,8 +52,8 @@ const AdminLogin = () => {
         <div className="admin-login-con">
             <svg xmlns="http://www.w3.org/2000/svg" onClick={() => toggleLogin()} className="admin-login-btn blue-color-logo" viewBox="0 0 448 512">
                 <path d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z" /></svg>
-            {isLogin && <button className="admin-btn" onClick={() => handleDashboardAccess()}>Access Dashboard</button>}
-            {isLoginVisible || !isLogin &&
+            {user && <button className="admin-btn" onClick={() => handleDashboardAccess()}>Access Dashboard</button>}
+            {isLoginVisible && !user &&
                 <div className='admin-form'>
                     <label for="email" className="login-label">Email</label>
                     <input type="text" id="email" className="login-input" value={email} onChange={(e) => setEmail(e.target.value)}></input>
@@ -120,9 +62,11 @@ const AdminLogin = () => {
                     <button className="login-btn theme-color" onClick={() => handleLogin()}>Login</button>
                 </div>
             }
-            <div className={isLogin && isLoginVisible ? 'show-logout' : 'hide-logout'}>
-                <button className="logout-btn" onClick={() => handleLogout()}>Logout</button>
-            </div>
+            {isLoginVisible && user &&
+                <div className='show-logout'>
+                    <button className="logout-btn" onClick={() => handleLogout()}>Logout</button>
+                </div>
+            }
         </div>
     )
 }
