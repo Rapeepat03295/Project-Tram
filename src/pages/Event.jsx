@@ -134,6 +134,7 @@ const Event = () => {
 
     const handleCloseCreateEvent = () => {
         setShowAddEvent(false);
+        loadEvent();
     };
     const handleShowEditEvent = (data) => {
         setEventEditData(data);
@@ -142,6 +143,7 @@ const Event = () => {
 
     const handleCloseEditEvent = () => {
         setShowEditEvent(false);
+        loadEvent();
     };
 
     return (
