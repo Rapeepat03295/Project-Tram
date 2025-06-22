@@ -96,6 +96,9 @@ const Display = ({ fromMarker,
     const toggleDetail = (data) => {
         setSurveyVisible(false);
         if (data) {
+            if(data.title === "Current Position"){
+                return;
+            }
             setDetail(data);
             setSimVisible(false);
             setDetailVisible(true);
@@ -143,9 +146,14 @@ const Display = ({ fromMarker,
                                 </option>
                             ))}
                         </datalist>
-                        <img src={fromMarker ? fromMarker.image :
-                            'https://cdn-icons-png.flaticon.com/512/8/8110.png'} className="img-org" onClick={() => toggleDetail(fromMarker)}>  
-                        </img>
+                        {fromMarker && (
+                            <img src={fromMarker.image? fromMarker.image: 
+                                "https://cdn-icons-png.flaticon.com/512/8/8110.png"
+                            } className = "img-org" onClick={() => toggleDetail(fromMarker)}>
+                        </img>)}
+                        {!fromMarker && (
+                            <img src= 'https://cdn-icons-png.flaticon.com/512/8/8110.png' className="img-org">
+                         </img>)}       
                         {userWalkToTram && userWalkToTram.distance && (
                         <div className = "current-pos-con">
                            <div className="current-walk-info">

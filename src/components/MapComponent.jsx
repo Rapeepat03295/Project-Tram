@@ -716,10 +716,10 @@ function MapComponent() {
                         const userPosition = {
                             lat: 13.795660,
                             lng: 100.326053
-                           /*
-                            lat: position.coords.latitude, 
-                            lng: position.coords.longitude 
-                            */
+                            /*
+                             lat: position.coords.latitude, 
+                             lng: position.coords.longitude 
+                             */
                         };
                         resolve(userPosition);
                     },
@@ -802,9 +802,9 @@ function MapComponent() {
 
                         icon: {
                             url: "/tram-icon.png",
-                            scaledSize: new google.maps.Size(30, 30),
+                            scaledSize: new google.maps.Size(35, 35),
                             origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(15, 15),
+                            anchor: new google.maps.Point(18, 18),
                         },
                         image: marker.image,
                         timeTable: marker.Timetable ? marker.Timetable : {},
@@ -925,7 +925,7 @@ function MapComponent() {
             goToStation
         )
         */
-       setUserMid(userPos);
+        setUserMid(userPos);
 
         return userWaypoint.routes[0].legs[0].duration.value / 60;
     }
@@ -941,6 +941,22 @@ function MapComponent() {
         }
     }, [routeData, station]);
     const showDirection = async () => {
+        if (toMarker.title == "Current Position" ||
+            fromMarker.title == "Current Position") {
+            if (toMarker.title == "Current Position") {
+                setToMarker(null);
+                resetAllData();
+                alert("Invalid Choice");
+                return;
+            }
+            if(toMarker.title == "Current Position" && fromMarker.title == "Current Position"){
+                setToMarker(null);
+                setFromMarker(null);
+                resetAllData();
+                alert("Invalid Choice");
+                return;
+            }
+        }
         try {
             if (fromMarker.title == "Current Position") {
                 let displaceStationMap = new Map();
@@ -1545,7 +1561,6 @@ function MapComponent() {
                                 onClick={() => clickMarker(marker)}
                                 onMouseOver={() => setHoverMarker(marker)}
                                 onMouseOut={() => setHoverMarker(removePopup)}
-
                             />
                         ))}
                         {hoverMarker.title != '' && !toMarker && (
