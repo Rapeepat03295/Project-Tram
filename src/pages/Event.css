@@ -88,10 +88,6 @@
     cursor: pointer;
 }
 
-.delete-icon-container:hover{
-    opacity: 60%;
-}
-
 .archive-header{
     font-size: 1.8vw;
     padding: 2vw 0vw;

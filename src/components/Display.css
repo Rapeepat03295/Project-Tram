@@ -86,7 +86,7 @@
 
 .img-org {
     width: 12vw;
-    height: 20vh;
+    height: 10vw;
     margin: 1vw;
     border-radius: 7px;
     cursor: pointer;
@@ -262,4 +262,51 @@
     padding: 0.4vw 0.55vw;
     border-radius: 5px;
     align-self: center;
+}
+
+
+.current-pos-con{
+    display: flex;
+    gap: 0.5vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.current-walk-info{
+    margin-top: 0vw;
+    display: flex;
+    padding: 0.3vw;
+    width: 5.5vw;
+    gap: 0.01vw;
+    flex-wrap: wrap;
+    border: 2px solid black;
+    align-items: center;
+    font-weight: 600;
+}
+
+.current-walk-info h4{
+    font-weight: 400;
+    margin: 0;
+}
+.current-walk-info h3{
+    font-weight: 600;
+    margin: 0;
+}
+
+.user-walk-icon{
+    width: 2.2vw;
+    height: 2.2vw;
+}
+
+.current-pos-con h1{
+    font-size: 2vw;
+    font-weight: 800;
+    position: relative;
+    bottom: 1.5vw;
+}
+
+.current-pos{
+    display: flex;
+    gap: 1vw;
+    align-items: center;
 }

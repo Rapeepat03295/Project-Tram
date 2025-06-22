@@ -714,8 +714,12 @@ function MapComponent() {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const userPosition = {
-                            lat: 13.796739,
-                            lng: 100.318289
+                            lat: 13.795660,
+                            lng: 100.326053
+                           /*
+                            lat: position.coords.latitude, 
+                            lng: position.coords.longitude 
+                            */
                         };
                         resolve(userPosition);
                     },
@@ -915,10 +919,14 @@ function MapComponent() {
         setUser2Desti(walkingInfo);
         setDirectionsUserToTram(userWaypoint);
         //console.log(findMidpoint(userPos, goToStation));
+        /*
         setUserMid(findMidpoint(
             userPos,
             goToStation
-        ))
+        )
+        */
+       setUserMid(userPos);
+
         return userWaypoint.routes[0].legs[0].duration.value / 60;
     }
     const findMidpoint = (origin, destination) => {
@@ -1478,7 +1486,7 @@ function MapComponent() {
                                         ],
                                         zIndex: 2
                                     },
-                                    suppressMarkers: false
+                                    suppressMarkers: true
                                 }}
                             />}
                         {directionsUserToTram &&
@@ -1505,7 +1513,7 @@ function MapComponent() {
                                         ],
                                         zIndex: 2
                                     },
-                                    suppressMarkers: false
+                                    suppressMarkers: true
                                 }}
                             />}
                         <Polyline
@@ -1610,6 +1618,7 @@ function MapComponent() {
                     result={result}
                     markers={markers}
                     walkingDistance={walkingDistance}
+                    userWalkToTram={user2Desti}
                     transferStation={transferStation}
                 />}
         </div>
