@@ -2,11 +2,13 @@ import './Event.css'
 import react, { act, useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import { ref, push, set, remove, onValue } from 'firebase/database';
-import { realtimeDb, fetchFromDb, editFromDb, fetchNewestFirst } from '../config/firebase';
+import { realtimeDb, fetchFromDb, editFromDb, fetchNewestFirst, auth } from '../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import AddEvent from '../components/AddEvent';
 import EditEvent from '../components/EditEvent';
 const Event = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [event, setEvent] = useState([]);
     const [archEvent, setArchEvent] = useState([]);
@@ -16,16 +18,16 @@ const Event = () => {
 
     const loadEvent = async () => {
         try {
-            const getEvent = await fetchNewestFirst("events");
+            const getEvent = await fetchFromDb("events");
             if (getEvent) {
                 let deleted = [];
                 let active = [];
-                for (const data of getEvent) {
-                    console.log(data);
-                    if (data.status == 'active') {
-                        active.push(data);
+                for (let i = getEvent.length - 1; i >= 0; i--) {
+                    //console.log(data);
+                    if (getEvent[i].status == 'active') {
+                        active.push(getEvent[i]);
                     } else {
-                        deleted.push(data);
+                        deleted.push(getEvent[i]);
                     }
                 }
                 setArchEvent(deleted);
@@ -35,6 +37,18 @@ const Event = () => {
             console.log(e);
         }
     }
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if(currentUser)
+                setUser(currentUser);
+            else{
+                alert("Please login to view this webpage");
+                navigate('/');
+            }
+        });
+        return () => unsubscribe();
+    }, [auth]);
+
     useEffect(() => {
         loadEvent();
     }, []);

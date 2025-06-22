@@ -751,9 +751,9 @@ function MapComponent() {
                             endDate: marker.endDate,
                             icon: {
                                 url: eventIcon,
-                                scaledSize: new google.maps.Size(60, 60),
+                                scaledSize: new google.maps.Size(35, 35),
                                 origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(15, 15),
+                                anchor: new google.maps.Point(18, 18),
                             },
                             position: marker.location
                         });

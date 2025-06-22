@@ -2,8 +2,11 @@ import './Feedback.css'
 import react, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import { ref, push, set, remove, onValue } from 'firebase/database';
-import { realtimeDb, fetchFromDb, editFromDb } from '../config/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { realtimeDb, fetchFromDb, editFromDb, auth } from '../config/firebase';
+import { useNavigate } from 'react-router-dom';
 const Feedback = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [feedback, setFeedback] = useState([]);
     const [archFeedback, setArchFeedback] = useState([]);
@@ -14,11 +17,11 @@ const Feedback = () => {
                 let deleted = [];
                 let active = [];
                 console.log(getFeedback);
-                for (const data of getFeedback) {
-                    if (data.status == 'active') {
-                        active.push(data);
+                for (let i = getFeedback.length - 1; i >= 0; i--) {
+                    if (getFeedback[i].status == 'active') {
+                        active.push(getFeedback[i]);
                     } else {
-                        deleted.push(data);
+                        deleted.push(getFeedback[i]);
                     }
                 }
                 setArchFeedback(deleted);
@@ -30,7 +33,18 @@ const Feedback = () => {
     }
     useEffect(() => {
         loadFeedback();
-    }, [feedback]);
+    }, []);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser)
+                setUser(currentUser);
+            else {
+                alert("Please login to view this webpage");
+                navigate('/');
+            }
+        });
+        return () => unsubscribe();
+    }, [auth]);
 
     const convertDateTime = (date) => {
         const dateObj = new Date(date);
@@ -46,6 +60,9 @@ const Feedback = () => {
                     status: "Deleted"
                 }
                 const checkEdit = await editFromDb(dataEdit, "feedback", dataEdit.id);
+                if (checkEdit) {
+                    loadFeedback();
+                }
                 alert("Data Archived Successfully");
             } catch (e) {
                 console.log(e);
@@ -78,6 +95,7 @@ const Feedback = () => {
             remove(feedbackRef)
                 .then(() => {
                     alert("feedback Deleted!");
+                    loadFeedback();
                 })
                 .catch((error) => {
                     console.error("Error deleting an feedback", error);
@@ -99,8 +117,8 @@ const Feedback = () => {
                                 handleArchiveFeedback(data)
                             }} className="delete-event">x</button>
                             <h1 className="fb-header fb-color">{
-                                data.email? data.email 
-                                : `- - `}
+                                data.email ? data.email
+                                    : `Anonymous`}
                             </h1>
                             <div className="data-desc-con">
                                 <p className="data-desc">{data.message}</p>
@@ -109,7 +127,7 @@ const Feedback = () => {
                         </div>
                     ))}
                 </div>
-                {archFeedback.length > 0 && <h1 className = "archive-header">Archive Feedback</h1>}
+                {archFeedback.length > 0 && <h1 className="archive-header">Archive Feedback</h1>}
                 <div className="data-con">
                     {archFeedback && archFeedback.map((data) => (
                         <div className="fb-card hover-opacity" key={data.id}>
@@ -117,9 +135,9 @@ const Feedback = () => {
                                 e.stopPropagation();
                                 handleDeleteFeedback(data.id)
                             }} className="delete-event">x</button>
-                             <h1 className="fb-header fb-color">{
-                                data.email? data.email 
-                                : `- - `}
+                            <h1 className="fb-header fb-color">{
+                                data.email ? data.email
+                                    : `Anonymous`}
                             </h1>
                             <p className="data-date">{data.message}</p>
                             <h3 className="data-date">{convertDateTime(data.timestamp)}</h3>

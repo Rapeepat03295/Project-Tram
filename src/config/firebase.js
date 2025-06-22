@@ -218,7 +218,7 @@ export const addEventWithImage = async (eventId, eventData, imageFile) => {
         imageUrl,
         imageName
     };
-
+    console.log(fullEventData);
     const eventRef = ref(realtimeDb, `events/${eventId}`);
     await set(eventRef, fullEventData);
 };

@@ -1,11 +1,12 @@
 import './Routes.css';
 import react, { act, useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
-import { realtimeDb, fetchFromDb, editFromDb } from '../config/firebase';
+import { realtimeDb, fetchFromDb, editFromDb, auth } from '../config/firebase';
 import RouteMap from '../components/RouteMap';
-
-
+import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
 const Routes = () => {
+    const navigate = useNavigate();
     const [routeData, setRouteData] = useState([]);
     const [routeColor, setRouteColor] = useState([]);
 
@@ -32,6 +33,19 @@ const Routes = () => {
             console.log(e);
         }
     }
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser)
+                setUser(currentUser);
+            else {
+                alert("Please login to view this webpage");
+                navigate('/');
+            }
+        });
+        return () => unsubscribe();
+    }, [auth]);
+
     useEffect(() => {
         loadRoute();
     }, []);
@@ -40,7 +54,7 @@ const Routes = () => {
         <div className='admin-page'>
             <Navbar />
             <div className="admin-content">
-                 <h1 className="cat-header event-color">Routes</h1>
+                <h1 className="cat-header event-color">Routes</h1>
                 <div className="data-con">
                     {routeData && routeData.map((data, index) => (
                         <div className="route-map-wrapper">

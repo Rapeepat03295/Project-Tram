@@ -61,6 +61,7 @@ const AddEvent = ({ showAddEvent, closeAddEvent }) => {
             createdBy: user.uid,
             createdAt: new Date().toISOString(),
         }));
+        console.log(eventData);
         try{
         await addEventWithImage(newEventRef.key, eventData, imageFile);
             alert("event added successfully");
@@ -68,6 +69,7 @@ const AddEvent = ({ showAddEvent, closeAddEvent }) => {
         }catch(e){
             alert("failed to add event")
         }
+        
         /*
         set(newEventRef, eventData)
             .then(() => {
