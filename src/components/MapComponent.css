@@ -153,13 +153,14 @@
 }
 
 .filter-station-btn:hover{
-    background-color: rgb(230, 226, 226);
+    background-color: rgb(209, 223, 223);
 }
-.filter-radio:checked+.filter-station-btn {
-    background-color: rgb(32, 118, 189);
-    font-weight: bold;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+.filter-station-btn.active {
+    border: 3px solid black;
 }
+
+
 .popup-tram-color {
     width: 1.2vw;
     height: 1.2vw;

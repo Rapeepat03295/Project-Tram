@@ -144,13 +144,16 @@ function MapComponent() {
     const [walking2Desti, setWalking2Desti] = useState(emptyRouteInfo);
     const [user2Desti, setUser2Desti] = useState(emptyRouteInfo);
 
+    /*
     const emptyEventInfo = {
         imageUrl: null,
         title: null,
         startDate: null,
         endDate: null
     }
+    */
 
+    const [activeBtn, setActiveBtn] = useState("All Stations");
     const [eventHover, setEventHover] = useState(null);
     const onLoad = useCallback((mapInstance) => {
         map.current = mapInstance;
@@ -768,6 +771,7 @@ function MapComponent() {
     }
     const filterPlace = async (category) => {
         //console.log("category selected ", category);
+        setActiveBtn(category);
         if (category == 'All Stations') {
             setMarker(filterMarker);
         } else {
@@ -1382,7 +1386,8 @@ function MapComponent() {
                         <button className="simu" onClick={() => { setSimState(!simState) }}>{simState ? `Stop simulation` : `Start simulation`}</button>}
                     <div className="filter-btn-container">
                         {filterBtn.length > 0 && filterBtn.map((data) => (
-                            <button className="filter-station-btn" key={data} value={data} onClick={() => filterPlace(data)}>{data}</button>
+                            <button className={`filter-station-btn ${activeBtn === data? `active`: ``}`} 
+                            key={data} value={data} onClick={() => filterPlace(data)}>{data}</button>
                         ))}
                     </div>
                     {!isDrag && <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" onClick={() => toggleDrag()} className="lock-map-icon">

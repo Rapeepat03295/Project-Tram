@@ -71,7 +71,7 @@ const Feedback = () => {
         }
     }
     const restoreArchiveFeedback = async (data) => {
-        if (window.confirm('Are you sure you want to delete this data?')) {
+        if (window.confirm('Are you sure you want to restore this data?')) {
             try {
                 const archiveData = {
                     ...data,
