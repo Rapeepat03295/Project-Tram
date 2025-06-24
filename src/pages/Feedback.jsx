@@ -57,7 +57,7 @@ const Feedback = () => {
             try {
                 const dataEdit = {
                     ...data,
-                    status: "Deleted"
+                    status: "expired"
                 }
                 const checkEdit = await editFromDb(dataEdit, "feedback", dataEdit.id);
                 if (checkEdit) {

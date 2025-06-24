@@ -58,7 +58,7 @@ const Event = () => {
             try {
                 const dataEdit = {
                     ...data,
-                    status: "Deleted"
+                    status: "expired"
                 }
                 const checkEdit = await editFromDb(dataEdit, "events", dataEdit.id);
                 if (checkEdit) {
