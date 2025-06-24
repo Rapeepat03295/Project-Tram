@@ -717,12 +717,10 @@ function MapComponent() {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const userPosition = {
-                            lat: 13.795660,
-                            lng: 100.326053
-                            /*
+                            //lat: 13.79652113581414,
+                            //lng: 100.3204099659574          
                              lat: position.coords.latitude, 
-                             lng: position.coords.longitude 
-                             */
+                             lng: position.coords.longitude    
                         };
                         resolve(userPosition);
                     },
@@ -1373,12 +1371,13 @@ function MapComponent() {
 
     return (
         <div className="map-component">
-            {isLoaded && google ? (
+            {isLoaded && google && (
                 <>
-                    <div className="route-btn-container">
-                        <button className="show-route" onClick={() => { toggleRoute() }}>{showRoute ? `Hide Route` : `Show Route`}</button>
+                    <div className={`route-btn-container ${showRoute? `active` : ``}`}>
+                        <button className={`show-route`} onClick={() => { toggleRoute() }}>{showRoute ? `Hide Route` : `Show Route`}</button>
                         {showRoute && routeColor.map((color, index) => (
-                            <svg onClick={() => handleShowRouteColor(color)} key={`tram-${index}`} xmlns="http://www.w3.org/2000/svg" className="tram-color" viewBox="0 0 448 512">
+                            <svg onClick={() => handleShowRouteColor(color)} key={`tram-${index}`} xmlns="http://www.w3.org/2000/svg" 
+                            className="tram-color hover-big" viewBox="0 0 448 512">
                                 <path fill={color} d="M96 0C43 0 0 43 0 96L0 352c0 48 35.2 87.7 81.1 94.9l-46 46C28.1 499.9 33.1 512 43 512l39.7 0c8.5 0 16.6-3.4 22.6-9.4L160 448l128 0 54.6 54.6c6 6 14.1 9.4 22.6 9.4l39.7 0c10 0 15-12.1 7.9-19.1l-46-46c46-7.1 81.1-46.9 81.1-94.9l0-256c0-53-43-96-96-96L96 0zM64 128c0-17.7 14.3-32 32-32l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96zM272 96l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM64 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm288-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" /></svg>
                         ))}
                     </div>
@@ -1623,10 +1622,7 @@ function MapComponent() {
 
                     </GoogleMap>
                 </>
-            ) : (
-                <div>Loading map...</div>
             )}
-            {
                 <Display fromMarker={fromMarker}
                     toMarker={toMarker}
                     removeToMarker={handleRemoveToMarker}
@@ -1640,7 +1636,7 @@ function MapComponent() {
                     walkingDistance={walkingDistance}
                     userWalkToTram={user2Desti}
                     transferStation={transferStation}
-                />}
+                />
         </div>
     )
 }

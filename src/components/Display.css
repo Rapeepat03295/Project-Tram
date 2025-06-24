@@ -169,12 +169,6 @@
     cursor: pointer;
 }
 
-.survey-btn:hover {
-    width: 3vw;
-    height: 3vw;
-
-}
-
 .sim-show {
     width: 90%;
     display: flex;

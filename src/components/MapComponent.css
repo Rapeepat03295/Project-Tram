@@ -27,7 +27,6 @@
 }
 
 .route-btn-container {
-    margin-top: 2vw;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -35,9 +34,9 @@
     background-color: rgba(124, 185, 243, 0.768);
     text-align: center;
     width: 10vw;
-    z-index: 2;
-    top: 7vw;
-    left: 0;
+    z-index: 1;
+    top: 4vw;
+    left: 2vw;
     border-radius: 10px;
 }
 
@@ -46,10 +45,10 @@
 }
 
 .lock-map-icon {
-     fill: rgb(86, 165, 238);
+    fill: rgb(86, 165, 238);
     position: absolute;
-    right:1vw;
-    bottom:1vw;
+    right: 1vw;
+    bottom: 1vw;
     z-index: 10;
     width: 3vw;
     height: 3vw;
@@ -57,40 +56,59 @@
 }
 
 .simu {
-   width: 10vw;
+    width: 10vw;
     height: 2vw;
     font-size: 0.9vw;
-    position: absolute;
+    position: absolute !important;
     z-index: 6;
-    right: 50vw;
     font-weight: 600;
     color: black;
     font-family: Poppins;
     background-color: white;
-    top:4vw;
-    left: 0;
+    top: 4vw;
+    left: 14vw;
     border-radius: 6px;
     border: none;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
+.simu:hover {
+    transform: scale(1.28);
+    opacity: 95%;
+    transition: all 0.35s ease;
+}
+
+.simu.active {
+    border: 3px solid black;
+}
+
+
 .show-route {
     width: 10vw;
     height: 2vw;
     font-size: 0.9vw;
     z-index: 2;
-    right: 50vw;
     color: black;
     font-family: Poppins;
     background-color: white;
-    top: 1vw;
     font-weight: 600;
     border-radius: 6px;
     border: none;
-    cursor: pointer; 
+    cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
+.show-route:hover {
+    transform: scale(1.28);
+    opacity: 95%;
+    transition: all 0.35s ease;
+}
+
+.show-route.active {
+    border: 3px solid black;
+}
+
+
 
 .marker-popup {
     display: flex;
@@ -113,6 +131,7 @@
     /* Maintain aspect ratio */
     display: block;
 }
+
 .tram-color-container {
     margin-top: 1vw;
     display: flex;
@@ -152,8 +171,10 @@
 
 }
 
-.filter-station-btn:hover{
-    background-color: rgb(209, 223, 223);
+.filter-station-btn:hover {
+    transform: scale(1.28);
+    opacity: 95%;
+    transition: all 0.35s ease;
 }
 
 .filter-station-btn.active {
@@ -167,7 +188,7 @@
     padding: 0vw;
 }
 
-.popup-route-info{
+.popup-route-info {
     margin-top: 0vw;
     display: flex;
     padding: 0.3vw;
@@ -179,34 +200,35 @@
     font-weight: 600;
 }
 
-.popup-route-info h3{
+.popup-route-info h3 {
     font-weight: 600;
     font-size: 0.8vw;
     margin: 0;
 }
 
-.popup-route-info h4{
-     font-weight: 400;
+.popup-route-info h4 {
+    font-weight: 400;
     font-size: 0.7vw;
-     margin: 0;
+    margin: 0;
 }
 
-.blue-border{
+.blue-border {
     border: 1px solid blue;
 }
-.red-border{
-       border: 1px solid red;
+
+.red-border {
+    border: 1px solid red;
 }
 
-.green-border{
+.green-border {
     border: 1px solid green;
 }
 
-.yellow-border{
-     border: 1px solid yellow;
+.yellow-border {
+    border: 1px solid yellow;
 }
 
-.black-border{
+.black-border {
     border: 1px solid black;
 }
 
@@ -226,13 +248,13 @@
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-.popup-event-info h2{
+.popup-event-info h2 {
     font-size: 0.7vw;
     margin: 0.3vw;
     font-weight: 600;
 }
 
-.popup-event-info h3{
+.popup-event-info h3 {
     font-size: 0.6vw;
     margin: 0.3vw;
     font-weight: 500;
@@ -248,18 +270,19 @@
     height: 1px !important;
 }
 
-.gm-style-iw-ch{
+.gm-style-iw-ch {
     padding-top: 0px;
 }
 
-.gm-style .gm-style-iw-d{
+.gm-style .gm-style-iw-d {
     overflow: hidden !important;
 }
 
-.gm-style .gm-style-iw-c{
+.gm-style .gm-style-iw-c {
     border-radius: 0px;
     padding: 0;
 }
-.gm-style .gm-style-iw-tc::after{
+
+.gm-style .gm-style-iw-tc::after {
     height: 0px;
 }
