@@ -143,6 +143,7 @@ function MapComponent() {
     const [trans2Desti, setTrans2Desti] = useState(emptyRouteInfo);
     const [walking2Desti, setWalking2Desti] = useState(emptyRouteInfo);
     const [user2Desti, setUser2Desti] = useState(emptyRouteInfo);
+    const [showOption, setOption] = useState(false);
 
     /*
     const emptyEventInfo = {
@@ -719,8 +720,8 @@ function MapComponent() {
                         const userPosition = {
                             //lat: 13.79652113581414,
                             //lng: 100.3204099659574          
-                             lat: position.coords.latitude, 
-                             lng: position.coords.longitude    
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
                         };
                         resolve(userPosition);
                     },
@@ -951,7 +952,7 @@ function MapComponent() {
                 alert("Invalid Choice");
                 return;
             }
-            if(toMarker.title == "Current Position" && fromMarker.title == "Current Position"){
+            if (toMarker.title == "Current Position" && fromMarker.title == "Current Position") {
                 setToMarker(null);
                 setFromMarker(null);
                 resetAllData();
@@ -1279,6 +1280,7 @@ function MapComponent() {
         setTrans2Desti(emptyRouteInfo);
         setWalking2Desti(emptyRouteInfo);
         setUser2Desti(emptyRouteInfo);
+        setOption(false);
     }
     const handleRemoveToMarker = () => {
         setToMarker(null);
@@ -1369,15 +1371,35 @@ function MapComponent() {
         setEventHover(null);
     }
 
+    const handleShowOption = () => {
+        //alert("show option set to true");
+        setOption(true);
+        setDirectState(false);
+        setTransferState(false);
+    }
+
+    const handleHideOption = () => {
+        //alert("show option set to false");
+        setOption(false);
+        setDirectState(true);
+        if (transferDirect.path.length > 0) {
+            setTransferState(true);
+        }
+    }
+
+    const resetOriginToDestiPoly = () => {
+        const data = polyDirect;
+        setPolyDirect(data)
+    }
     return (
         <div className="map-component">
             {isLoaded && google && (
                 <>
-                    <div className={`route-btn-container ${showRoute? `active` : ``}`}>
+                    <div className={`route-btn-container ${showRoute ? `active` : ``}`}>
                         <button className={`show-route`} onClick={() => { toggleRoute() }}>{showRoute ? `Hide Route` : `Show Route`}</button>
                         {showRoute && routeColor.map((color, index) => (
-                            <svg onClick={() => handleShowRouteColor(color)} key={`tram-${index}`} xmlns="http://www.w3.org/2000/svg" 
-                            className="tram-color hover-big" viewBox="0 0 448 512">
+                            <svg onClick={() => handleShowRouteColor(color)} key={`tram-${index}`} xmlns="http://www.w3.org/2000/svg"
+                                className="tram-color hover-big" viewBox="0 0 448 512">
                                 <path fill={color} d="M96 0C43 0 0 43 0 96L0 352c0 48 35.2 87.7 81.1 94.9l-46 46C28.1 499.9 33.1 512 43 512l39.7 0c8.5 0 16.6-3.4 22.6-9.4L160 448l128 0 54.6 54.6c6 6 14.1 9.4 22.6 9.4l39.7 0c10 0 15-12.1 7.9-19.1l-46-46c46-7.1 81.1-46.9 81.1-94.9l0-256c0-53-43-96-96-96L96 0zM64 128c0-17.7 14.3-32 32-32l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96zM272 96l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM64 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm288-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" /></svg>
                         ))}
                     </div>
@@ -1385,8 +1407,8 @@ function MapComponent() {
                         <button className="simu" onClick={() => { setSimState(!simState) }}>{simState ? `Stop simulation` : `Start simulation`}</button>}
                     <div className="filter-btn-container">
                         {filterBtn.length > 0 && filterBtn.map((data) => (
-                            <button className={`filter-station-btn ${activeBtn === data? `active`: ``}`} 
-                            key={data} value={data} onClick={() => filterPlace(data)}>{data}</button>
+                            <button className={`filter-station-btn ${activeBtn === data ? `active` : ``}`}
+                                key={data} value={data} onClick={() => filterPlace(data)}>{data}</button>
                         ))}
                     </div>
                     {!isDrag && <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" onClick={() => toggleDrag()} className="lock-map-icon">
@@ -1426,7 +1448,7 @@ function MapComponent() {
 
 
                         {/*{nearStation && <Marker key={nearStation.id} position={nearStation.position} title={nearStation.title} />}*/}
-                        {(walking2Desti && direction &&
+                        {(walking2Desti && direction && showOption &&
                             <InfoWindow position={midpoint}
                                 onCloseClick={() => setWalking2Desti(emptyRouteInfo)}>
                                 <div className={`popup-route-info black-border`}>
@@ -1448,7 +1470,7 @@ function MapComponent() {
                                 </div>
                             </InfoWindow>
                         )}
-                        {(origin2Desti.distance &&
+                        {(origin2Desti.distance && !showOption &&
                             <InfoWindow position={origin2Desti.position}
                                 onCloseClick={() => setOrigin2Desti(emptyRouteInfo)}>
                                 <div className={`popup-route-info ${origin2Desti.color}-border`}>
@@ -1459,7 +1481,7 @@ function MapComponent() {
                                 </div>
                             </InfoWindow>
                         )}
-                        {(origin2Trans.distance &&
+                        {(origin2Trans.distance && !showOption &&
                             <InfoWindow position={origin2Trans.position}
                                 onCloseClick={() => setOrigin2Trans(emptyRouteInfo)}>
                                 <div className={`popup-route-info ${origin2Trans.color}-border`}>
@@ -1470,7 +1492,7 @@ function MapComponent() {
                                 </div>
                             </InfoWindow>
                         )}
-                        {(trans2Desti.distance &&
+                        {(trans2Desti.distance && !showOption &&
                             <InfoWindow position={trans2Desti.position}
                                 onCloseClick={() => setTrans2Desti(emptyRouteInfo)}>
                                 <div className={`popup-route-info ${trans2Desti.color}-border`}>
@@ -1482,7 +1504,7 @@ function MapComponent() {
                             </InfoWindow>
                         )}
 
-                        {direction &&
+                        {direction && showOption &&
                             <DirectionsRenderer directions={direction}
                                 key='origin-direct'
                                 options={{
@@ -1508,7 +1530,8 @@ function MapComponent() {
                                     },
                                     suppressMarkers: true
                                 }}
-                            />}
+                            />
+                        }
                         {directionsUserToTram &&
                             <DirectionsRenderer directions={directionsUserToTram}
                                 key='user-direct'
@@ -1536,18 +1559,37 @@ function MapComponent() {
                                     suppressMarkers: true
                                 }}
                             />}
-                        <Polyline
-                            key='tramData'
-                            path={polyDirect.path}
-                            onLoad={onPolyDirectLoad}
-                            options={PolylineOptions(polyDirect.tramColor, directState)}
-                        />
+                        {/*!showOption && (
+                            <>
+                                <Polyline
+                                    key='tramData'
+                                    path={polyDirect.path}
+                                    onLoad={onPolyDirectLoad}
+                                    options={PolylineOptions(polyDirect.tramColor, directState)}
+                                />
+                                <Polyline
+                                    key='transData124'
+                                    path={transferDirect.path}
+                                    onLoad={onPolyDirectLoad}
+                                    options={PolylineOptions(transferDirect.tramColor, transferState)}
+                                />
+                            </>
+                        )
+                            */
+                        }
                         <Polyline
                             key='transData124'
                             path={transferDirect.path}
                             onLoad={onPolyDirectLoad}
                             options={PolylineOptions(transferDirect.tramColor, transferState)}
                         />
+                        <Polyline
+                            key='tramData'
+                            path={polyDirect.path}
+                            onLoad={onPolyDirectLoad}
+                            options={PolylineOptions(polyDirect.tramColor, directState)}
+                        />
+                        )
                         <Polyline
                             key={`poly`}
                             path={filterRoute.path}
@@ -1623,20 +1665,23 @@ function MapComponent() {
                     </GoogleMap>
                 </>
             )}
-                <Display fromMarker={fromMarker}
-                    toMarker={toMarker}
-                    removeToMarker={handleRemoveToMarker}
-                    removeFromMarker={handleRemoveFromMarker}
-                    onSelectFrom={handleSelectFromMarker}
-                    onSelectTo={handleSelectToMarker}
-                    distance={distance}
-                    time={time}
-                    result={result}
-                    markers={markers}
-                    walkingDistance={walkingDistance}
-                    userWalkToTram={user2Desti}
-                    transferStation={transferStation}
-                />
+            <Display fromMarker={fromMarker}
+                toMarker={toMarker}
+                removeToMarker={handleRemoveToMarker}
+                removeFromMarker={handleRemoveFromMarker}
+                onSelectFrom={handleSelectFromMarker}
+                onSelectTo={handleSelectToMarker}
+                distance={distance}
+                time={time}
+                result={result}
+                markers={markers}
+                walkingDistance={walkingDistance}
+                userWalkToTram={user2Desti}
+                transferStation={transferStation}
+                handleShowOption={handleShowOption}
+                handleHideOption={handleHideOption}
+                showOption={showOption}
+            />
         </div>
     )
 }

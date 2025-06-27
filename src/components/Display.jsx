@@ -16,7 +16,11 @@ const Display = ({ fromMarker,
     time,
     transferStation,
     userWalkToTram,
-    markers }) => {
+    markers,
+    handleShowOption,
+    handleHideOption,
+    showOption
+}) => {
 
     const [isDisplayVisible, setDisplayVisible] = useState(true);
     const [isSurveyVisible, setSurveyVisible] = useState(false);
@@ -25,6 +29,7 @@ const Display = ({ fromMarker,
     const [detail, setDetail] = useState(null);
     const [fromValue, setFromValue] = useState('');
     const [toValue, setToValue] = useState('');
+
     const userIcon = userIconToUrl("Black");
 
     useEffect(() => {
@@ -96,7 +101,7 @@ const Display = ({ fromMarker,
     const toggleDetail = (data) => {
         setSurveyVisible(false);
         if (data) {
-            if(data.title === "Current Position"){
+            if (data.title === "Current Position") {
                 return;
             }
             setDetail(data);
@@ -134,7 +139,7 @@ const Display = ({ fromMarker,
                 {isSimVisible && <div className='sim-show'>
                     <div className="select-c">
                         <h1>Origin</h1>
-                        {fromMarker && <svg xmlns="http://www.w3.org/2000/svg" onClick={() => handleRemoveFromMarker()} className='cancel-station' viewBox="0 0 512 512">
+                        {fromMarker && <svg xmlns="http://www.w3.org/2000/svg" onClick={() => handleRemoveFromMarker()} className='cancel-station hover-big' viewBox="0 0 512 512">
                             <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" /></svg>}
                         <input list="from_tram_station" className="select-input" onChange={handleToOrigin} value={fromValue} />
                         <datalist id="from_tram_station">
@@ -147,24 +152,24 @@ const Display = ({ fromMarker,
                             ))}
                         </datalist>
                         {fromMarker && (
-                            <img src={fromMarker.image? fromMarker.image: 
+                            <img src={fromMarker.image ? fromMarker.image :
                                 "https://cdn-icons-png.flaticon.com/512/8/8110.png"
-                            } className = "img-org" onClick={() => toggleDetail(fromMarker)}>
-                        </img>)}
+                            } className="img-org" onClick={() => toggleDetail(fromMarker)}>
+                            </img>)}
                         {!fromMarker && (
-                            <img src= 'https://cdn-icons-png.flaticon.com/512/8/8110.png' className="img-org">
-                         </img>)}       
+                            <img src='https://cdn-icons-png.flaticon.com/512/8/8110.png' className="img-org">
+                            </img>)}
                         {userWalkToTram && userWalkToTram.distance && (
-                        <div className = "current-pos-con">
-                           <div className="current-walk-info">
+                            <div className="current-pos-con">
+                                <div className="current-walk-info">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="user-walk-icon" viewBox="0 0 320 512">
                                         <path fill={userWalkToTram.color} d="M160 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-6 11.5-10.6 16.1L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L68.7 398z" /></svg>
                                     <h3>{userWalkToTram.time}</h3>
                                     <h4>{userWalkToTram.distance} m</h4>
+                                </div>
+                                <h1>↑</h1>
                             </div>
-                            <h1>↑</h1>
-                        </div>
-                         )}
+                        )}
                     </div>
                     {transferStation &&
                         <div className="transfer-c">
@@ -174,7 +179,7 @@ const Display = ({ fromMarker,
                         </div>}
                     <div className="select-c">
                         <h1>Destination</h1>
-                        {toMarker && <svg xmlns="http://www.w3.org/2000/svg" onClick={() => handleRemoveToMarker()} className='cancel-station' viewBox="0 0 512 512">
+                        {toMarker && <svg xmlns="http://www.w3.org/2000/svg" onClick={() => handleRemoveToMarker()} className='cancel-station hover-big' viewBox="0 0 512 512">
                             <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" /></svg>}
                         <input list="to_tram_station" className="select-input" onChange={handleToDestination} value={toValue} />
                         <datalist id="to_tram_station">
@@ -186,30 +191,26 @@ const Display = ({ fromMarker,
                         <img src={toMarker ? toMarker.image :
                             'https://cdn-icons-png.flaticon.com/512/8/8110.png'} className="img-org" onClick={() => toggleDetail(toMarker)}></img>
                     </div>
+
                     <div className="select-info-c">
-                        {/*
-                        <h1>Heading from</h1>
-                        <h3>{fromMarker ? fromMarker.title : '...'}</h3>
-                        <h3>↓ </h3>
-                        {transferStation &&
-                            <h3>{transferStation.title}</h3>}
-                        <h3>{toMarker ? toMarker.title : '...'}</h3>
-                        */}
+
                         {result && result.length > 0 &&
                             result.map((data, index) => (
                                 data.isWalking && (
-                                    <div className="info-c" key={index}> {/* Add a unique key here */}
-                                        <h1 className = "suggest-walking">Suggestion -- Walking</h1>
-                                        <div className="info-row">
-                                            <div className="info-data">
-                                                <h3>Total Time:</h3>
-                                                <h4>{data.walkingTime?.text || '--'}</h4>
+                                    <div className="info-c" key={`walk-data${index}`}>
+                                        <h1 onClick={() => handleShowOption()} className="suggest-walking hover-big">Suggestion -- Walking</h1>
+                                        {showOption && (
+                                            <div className="info-row">
+                                                <div className="info-data">
+                                                    <h3>Total Time:</h3>
+                                                    <h4>{data.walkingTime?.text || '--'}</h4>
+                                                </div>
+                                                <div className="info-data">
+                                                    <h3>Distance:</h3>
+                                                    <h4>{data.walkingDistance ? `${data.walkingDistance} m` : '--'}</h4>
+                                                </div>
                                             </div>
-                                            <div className="info-data">
-                                                <h3>Distance:</h3>
-                                                <h4>{data.walkingDistance ? `${data.walkingDistance} m` : '--'}</h4>
-                                            </div>
-                                        </div>
+                                        )}
                                     </div>
                                 )
                             ))
@@ -217,43 +218,47 @@ const Display = ({ fromMarker,
 
                         {result && result.length > 0 &&
                             <div className='info-c' >
-                                <h1 className="simu-schedule">Simulation -- Scheduled</h1>
-                                <div className="info-row">
-                                    <div className="info-data">
-                                        <h3>Total Time:</h3>
-                                        <h4>{time ? time : '--'}</h4>
-                                    </div>
-                                    <div className="info-data">
-                                        <h3>Distance:</h3>
-                                        <h4>{distance ? distance + ' Km' : ''}</h4>
-                                    </div>
-                                </div>
-                                <div className="info-row">
-                                    <div className="info-data">
-                                        <h3>Arrival Time: </h3>
-                                        <h4>{result.length ? result[0].arrivalTime : '--'}</h4>
-                                    </div>
-                                    <div className="info-data">
-                                        <h3>Color:</h3>
-                                        <h4>{result.length ? <svg xmlns="http://www.w3.org/2000/svg" className="popup-tram-icon" viewBox="0 0 448 512">
-                                        <path fill={result[0].color} d="M96 0C43 0 0 43 0 96L0 352c0 48 35.2 87.7 81.1 94.9l-46 46C28.1 499.9 33.1 512 43 512l39.7 0c8.5 0 16.6-3.4 22.6-9.4L160 448l128 0 54.6 54.6c6 6 14.1 9.4 22.6 9.4l39.7 0c10 0 15-12.1 7.9-19.1l-46-46c46-7.1 81.1-46.9 81.1-94.9l0-256c0-53-43-96-96-96L96 0zM64 128c0-17.7 14.3-32 32-32l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96zM272 96l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM64 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm288-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" /></svg>: '--'}
-                                        </h4>
-                                    </div>
-                                </div>
-                                {result.length > 1 && 
-                                <div className="info-row">
-                                    <div className="info-data">
-                                        <h3>Transfer Arrival : </h3>
-                                        <h4>{result.length > 1 ? result[1].arrivalTime : '--'}</h4>
-                                    </div>
-                                    <div className="info-data">
-                                        <h3>Transfer color:</h3>
-                                        <h4>{result.length > 1 ? <svg xmlns="http://www.w3.org/2000/svg" className="popup-tram-icon" viewBox="0 0 448 512">
-                                        <path fill={result[1].color} d="M96 0C43 0 0 43 0 96L0 352c0 48 35.2 87.7 81.1 94.9l-46 46C28.1 499.9 33.1 512 43 512l39.7 0c8.5 0 16.6-3.4 22.6-9.4L160 448l128 0 54.6 54.6c6 6 14.1 9.4 22.6 9.4l39.7 0c10 0 15-12.1 7.9-19.1l-46-46c46-7.1 81.1-46.9 81.1-94.9l0-256c0-53-43-96-96-96L96 0zM64 128c0-17.7 14.3-32 32-32l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96zM272 96l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM64 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm288-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" /></svg>: '--'}
-                                        </h4>
-                                    </div>
-                                </div>
-                                }
+                                <h1 onClick={() => handleHideOption()} className="simu-schedule hover-big">Simulation -- Scheduled</h1>
+                                {!showOption && (
+                                    <>
+                                        <div className="info-row">
+                                            <div className="info-data">
+                                                <h3>Total Time:</h3>
+                                                <h4>{time ? time : '--'}</h4>
+                                            </div>
+                                            <div className="info-data">
+                                                <h3>Distance:</h3>
+                                                <h4>{distance ? distance + ' Km' : ''}</h4>
+                                            </div>
+                                        </div>
+                                        <div className="info-row">
+                                            <div className="info-data">
+                                                <h3>Arrival Time: </h3>
+                                                <h4>{result.length ? result[0].arrivalTime : '--'}</h4>
+                                            </div>
+                                            <div className="info-data">
+                                                <h3>Color:</h3>
+                                                <h4>{result.length ? <svg xmlns="http://www.w3.org/2000/svg" className="popup-tram-icon" viewBox="0 0 448 512">
+                                                    <path fill={result[0].color} d="M96 0C43 0 0 43 0 96L0 352c0 48 35.2 87.7 81.1 94.9l-46 46C28.1 499.9 33.1 512 43 512l39.7 0c8.5 0 16.6-3.4 22.6-9.4L160 448l128 0 54.6 54.6c6 6 14.1 9.4 22.6 9.4l39.7 0c10 0 15-12.1 7.9-19.1l-46-46c46-7.1 81.1-46.9 81.1-94.9l0-256c0-53-43-96-96-96L96 0zM64 128c0-17.7 14.3-32 32-32l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96zM272 96l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM64 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm288-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" /></svg> : '--'}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        {result.length > 1 &&
+                                            <div className="info-row">
+                                                <div className="info-data">
+                                                    <h3>Transfer Arrival : </h3>
+                                                    <h4>{result.length > 1 ? result[1].arrivalTime : '--'}</h4>
+                                                </div>
+                                                <div className="info-data">
+                                                    <h3>Transfer color:</h3>
+                                                    <h4>{result.length > 1 ? <svg xmlns="http://www.w3.org/2000/svg" className="popup-tram-icon" viewBox="0 0 448 512">
+                                                        <path fill={result[1].color} d="M96 0C43 0 0 43 0 96L0 352c0 48 35.2 87.7 81.1 94.9l-46 46C28.1 499.9 33.1 512 43 512l39.7 0c8.5 0 16.6-3.4 22.6-9.4L160 448l128 0 54.6 54.6c6 6 14.1 9.4 22.6 9.4l39.7 0c10 0 15-12.1 7.9-19.1l-46-46c46-7.1 81.1-46.9 81.1-94.9l0-256c0-53-43-96-96-96L96 0zM64 128c0-17.7 14.3-32 32-32l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96zM272 96l80 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-80 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM64 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm288-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" /></svg> : '--'}
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        }
+                                    </>
+                                )}
                             </div>
                         }
                     </div>
