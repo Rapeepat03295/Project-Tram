@@ -218,7 +218,7 @@ const Display = ({ fromMarker,
 
                         {result && result.length > 0 &&
                             <div className='info-c' >
-                                <h1 onClick={() => handleHideOption()} className="simu-schedule hover-big">Simulation -- Scheduled</h1>
+                                <h1 onClick={() => handleHideOption()} className="simu-schedule hover-big">Tram -- Scheduled</h1>
                                 {!showOption && (
                                     <>
                                         <div className="info-row">
