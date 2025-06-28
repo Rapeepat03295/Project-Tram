@@ -254,6 +254,7 @@
     background-color: rgb(64, 156, 248);
     color: white;
     padding: 0.4vw 0.55vw;
+    width: 16.5vw;
     border-radius: 5px;
     align-self: center;
 }
